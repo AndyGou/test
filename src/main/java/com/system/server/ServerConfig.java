@@ -34,7 +34,7 @@ public class ServerConfig extends Thread {
             JSONObject jsonObject = JSON.parseObject(request.toString());
             SCMData data = new SCMData();
             data.setTemperature(jsonObject.getBigDecimal(RequestKey.TEMP));
-            data.setConcentration(jsonObject.getBigDecimal(RequestKey.PRESSURE));
+            data.setConcentration(jsonObject.getBigDecimal(RequestKey.AIR));
             data.setIntensity(jsonObject.getBigDecimal(RequestKey.ILLUMINATION));
             int i = service.saveSCMData(data);
             if (i >= 1) {

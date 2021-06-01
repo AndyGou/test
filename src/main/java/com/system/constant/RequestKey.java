@@ -9,9 +9,7 @@ public interface RequestKey {
 
     String ILLUMINATION = "illumination";
 
-    String HUM = "hum";
+    String AIR = "air";
 
-    String PRESSURE = "pressure";
-
-    String TEMP = "temp";
+    String TEMP = "temperature";
 }
