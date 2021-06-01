@@ -88,8 +88,6 @@ public class SCMController {
 
     @PutMapping("/save")
     public ResponseMessage saveSCM(@RequestBody SCMData scmData) {
-        Long currentTimestamp = DateUtil.getCurrentTimestamp();
-        populateSCMData(scmData,currentTimestamp);
         int affectRow = 0;
         try {
             affectRow = scmService.saveSCMData(scmData);
@@ -101,8 +99,6 @@ public class SCMController {
 
     @PutMapping("/batchSave")
     public ResponseMessage batchSaveSCM(@Valid @RequestBody List<SCMData> scmDataList) {
-        Long currentTimestamp = DateUtil.getCurrentTimestamp();
-        scmDataList.forEach(scmData -> populateSCMData(scmData,currentTimestamp));
         int affectRow = 0;
         try {
             affectRow = scmService.batchSaveSCMData(scmDataList);
@@ -110,11 +106,6 @@ public class SCMController {
             LOGGER.error("[SCMController > batchSaveSCM] Batch save scmData fail. Target scmDataList is {} . Track",JSON.toJSONString(scmDataList),e);
         }
         return checkResult(affectRow,ErrorEnum.SAVE_ERROR);
-    }
-
-    private void populateSCMData(SCMData scmData,Long timeStamp) {
-        scmData.setSaveTime(timeStamp);
-        scmData.setUpdateTime(timeStamp);
     }
 
     public ResponseMessage checkResult(int affectRow,ErrorEnum type) {

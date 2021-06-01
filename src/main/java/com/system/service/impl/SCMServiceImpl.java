@@ -48,6 +48,8 @@ public class SCMServiceImpl implements SCMService {
     */
     @Override
     public int saveSCMData(SCMData scmData) {
+        Long currentTimestamp = DateUtil.getCurrentTimestamp();
+        populateSCMData(scmData,currentTimestamp);
         return scmDao.insert(scmData);
     }
 
@@ -56,6 +58,8 @@ public class SCMServiceImpl implements SCMService {
     */
     @Override
     public int batchSaveSCMData(List<SCMData> scmDataList) {
+        Long currentTimestamp = DateUtil.getCurrentTimestamp();
+        scmDataList.forEach(scmData -> populateSCMData(scmData,currentTimestamp));
         int result = 0;
         for (SCMData scmData : scmDataList) {
             result += scmDao.insert(scmData);
@@ -142,5 +146,10 @@ public class SCMServiceImpl implements SCMService {
             result += scmDao.updateById(scmData);
         }
         return result;
+    }
+
+    private void populateSCMData(SCMData scmData,Long timeStamp) {
+        scmData.setSaveTime(timeStamp);
+        scmData.setUpdateTime(timeStamp);
     }
 }
