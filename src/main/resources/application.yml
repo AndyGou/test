@@ -27,7 +27,7 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://172.18.1.91:3306/graduation?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&useSSL=false&allowPublicKeyRetrieval=true
     username: root
-    password: wx1650209
+    password: xxxx
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
     time-zone: GMT+8
