@@ -1,0 +1,41 @@
+package com.system.server;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
+
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
+
+/**
+ * @author Luffy
+ * @description 接收数据服务器
+ * @createTime 2021年05月31日 20:41:00
+ */
+public class ServerRunner implements CommandLineRunner {
+
+    @Autowired
+    private SocketProperties properties;
+
+    @Override
+    public void run(String... args) throws Exception {
+        ServerSocket server = null;
+        Socket socket = null;
+        server = new ServerSocket(properties.getPort());
+        System.out.println("设备服务器已经开启, 监听端口:" + properties.getPort());
+        ThreadPoolExecutor pool = new ThreadPoolExecutor(
+                properties.getPoolCore(),
+                properties.getPoolMax(),
+                properties.getPoolKeep(),
+                TimeUnit.SECONDS,
+                new ArrayBlockingQueue<Runnable>(properties.getPoolQueueInit()),
+                new ThreadPoolExecutor.DiscardOldestPolicy()
+        );
+        while (true) {
+            socket = server.accept();
+            pool.execute(new ServerConfig(socket));
+        }
+    }
+}
