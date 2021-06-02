@@ -24,31 +24,31 @@ public class ServerConfig extends Thread {
     private final SCMService service = SpringUtil.getBean(SCMService.class);
 
     private String handle(InputStream inputStream) throws IOException, DataFormException {
-        byte[] bytes = new byte[1024 * 10];
-        int len = inputStream.read(bytes);
-        if (len != -1) {
-            StringBuffer request = new StringBuffer();
-            request.append(new String(bytes, 0, len, StandardCharsets.UTF_8));
-            System.out.println("接受的数据: " + request);
-            System.out.println("from client ... " + request + "当前线程" + Thread.currentThread().getName());
-            JSONObject jsonObject;
-            try {
-                jsonObject = JSON.parseObject(request.toString());
-            } catch (Exception e) {
-                throw new DataFormException("数据处理异常");
+        while (true) {
+            byte[] bytes = new byte[1024 * 10];
+            int len = inputStream.read(bytes);
+            if (len != -1) {
+                StringBuffer request = new StringBuffer();
+                request.append(new String(bytes, 0, len, StandardCharsets.UTF_8));
+                System.out.println("接受的数据: " + request);
+                System.out.println("from client ... " + request + "当前线程" + Thread.currentThread().getName());
+                JSONObject jsonObject;
+                try {
+                    jsonObject = JSON.parseObject(request.toString());
+                } catch (Exception e) {
+                    throw new DataFormException("数据处理异常");
+                }
+                SCMData data = new SCMData();
+                data.setTemperature(jsonObject.getBigDecimal(RequestKey.TEMP));
+                data.setConcentration(jsonObject.getBigDecimal(RequestKey.AIR));
+                data.setIntensity(jsonObject.getBigDecimal(RequestKey.ILLUMINATION));
+                int i = service.saveSCMData(data);
+                if (i >= 1) {
+                    return "ok";
+                } else {
+                    throw new DataFormException("数据处理异常");
+                }
             }
-            SCMData data = new SCMData();
-            data.setTemperature(jsonObject.getBigDecimal(RequestKey.TEMP));
-            data.setConcentration(jsonObject.getBigDecimal(RequestKey.AIR));
-            data.setIntensity(jsonObject.getBigDecimal(RequestKey.ILLUMINATION));
-            int i = service.saveSCMData(data);
-            if (i >= 1) {
-                return "ok";
-            } else {
-                throw new DataFormException("数据处理异常");
-            }
-        } else {
-            throw new DataFormException("数据处理异常");
         }
     }
 
@@ -69,7 +69,9 @@ public class ServerConfig extends Thread {
                 writer.flush();*/
             } catch (IOException | DataFormException | IllegalArgumentException e) {
             /*    writer.write("error");
-                writer.newLine();
+                writer.newL
+
+                ine();
                 writer.flush();*/
                 System.out.println("发生异常");
                 try {
