@@ -24,9 +24,8 @@ public class ServerRunner implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         ServerSocket server = null;
-        Socket socket = null;
         server = new ServerSocket(properties.getPort());
-        System.out.println("设备服务器已经开启, 监听端口:" + properties.getPort());
+        System.out.println("server is starting , the port is :" + properties.getPort());
         ThreadPoolExecutor pool = new ThreadPoolExecutor(
                 properties.getPoolCore(),
                 properties.getPoolMax(),
@@ -36,7 +35,7 @@ public class ServerRunner implements CommandLineRunner {
                 new ThreadPoolExecutor.DiscardOldestPolicy()
         );
         while (true) {
-            socket = server.accept();
+            Socket socket = server.accept();
             pool.execute(new ServerConfig(socket));
         }
     }

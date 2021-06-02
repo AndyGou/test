@@ -2,7 +2,8 @@ package com.system.server;
 
 import java.io.*;
 import java.net.Socket;
-import java.util.concurrent.TimeUnit;
+import java.nio.charset.StandardCharsets;
+
 
 /**
  * @author Luffy
@@ -21,37 +22,16 @@ public class Client {
             try {
                 //创建一个流套接字并将其连接到指定主机上的指定端口号
                 socket = new Socket(IP_ADDR, PORT);
-
-                //读取服务器端数据
-                DataInputStream input = new DataInputStream(socket.getInputStream());
                 //向服务器端发送数据
-                DataOutputStream out = new DataOutputStream(socket.getOutputStream());
-                System.out.print("请输入: \t");
-                String str = new BufferedReader(new InputStreamReader(System.in)).readLine();
-                out.writeUTF(str);
-
-                String ret = input.readUTF();
-                System.out.println("服务器端返回过来的是: " + ret);
-                // 如接收到 "OK" 则断开连接
-                if ("OK".equals(ret)) {
-                    System.out.println("客户端将关闭连接");
-                    TimeUnit.MILLISECONDS.sleep(500);
-                    break;
+                OutputStream out =socket.getOutputStream();
+                while (true) {
+                    System.out.print("请输入: \t");
+                    String str = new BufferedReader(new InputStreamReader(System.in)).readLine();
+                    out.write(str.getBytes(StandardCharsets.UTF_8));
+                    out.flush();
                 }
-
-                out.close();
-                input.close();
             } catch (Exception e) {
                 System.out.println("客户端异常:" + e.getMessage());
-            } finally {
-                if (socket != null) {
-                    try {
-                        socket.close();
-                    } catch (IOException e) {
-                        socket = null;
-                        System.out.println("客户端 finally 异常:" + e.getMessage());
-                    }
-                }
             }
         }
     }
