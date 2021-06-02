@@ -66,6 +66,7 @@ public class ServerConfig extends Thread {
         } finally {
             if (socket != null) {
                 try {
+                    flag.remove();
                     socket.close();
                 } catch (IOException e) {
                     e.printStackTrace();
