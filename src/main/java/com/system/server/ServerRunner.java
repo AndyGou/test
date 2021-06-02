@@ -2,6 +2,7 @@ package com.system.server;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.stereotype.Component;
 
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -14,6 +15,7 @@ import java.util.concurrent.TimeUnit;
  * @description 接收数据服务器
  * @createTime 2021年05月31日 20:41:00
  */
+@Component
 public class ServerRunner implements CommandLineRunner {
 
     @Autowired

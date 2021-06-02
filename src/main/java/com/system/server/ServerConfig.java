@@ -11,11 +11,11 @@ import java.net.Socket;
 import java.net.SocketException;
 import java.net.SocketTimeoutException;
 import java.nio.charset.StandardCharsets;
-import java.util.Map;
+
 
 public class ServerConfig extends Thread {
 
-    private Socket socket;
+    private final Socket socket;
 
     public ServerConfig(Socket socket) {
         this.socket = socket;
@@ -31,7 +31,12 @@ public class ServerConfig extends Thread {
             request.append(new String(bytes, 0, len, StandardCharsets.UTF_8));
             System.out.println("接受的数据: " + request);
             System.out.println("from client ... " + request + "当前线程" + Thread.currentThread().getName());
-            JSONObject jsonObject = JSON.parseObject(request.toString());
+            JSONObject jsonObject;
+            try {
+                jsonObject = JSON.parseObject(request.toString());
+            } catch (Exception e) {
+                throw new DataFormException("数据处理异常");
+            }
             SCMData data = new SCMData();
             data.setTemperature(jsonObject.getBigDecimal(RequestKey.TEMP));
             data.setConcentration(jsonObject.getBigDecimal(RequestKey.AIR));

@@ -5,7 +5,7 @@ server:
 # Socket配置
 socket:
   # 监听端口 2323
-  port: 2323
+  port: 7891
   # 线程池 - 保持线程数 20
   pool-keep: 20
   # 线程池 - 核心线程数 10
@@ -27,7 +27,7 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://172.18.1.91:3306/graduation?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&useSSL=false&allowPublicKeyRetrieval=true
     username: root
-    password: xxxx
+    password: wx1650209
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
     time-zone: GMT+8
