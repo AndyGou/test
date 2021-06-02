@@ -64,20 +64,20 @@ public class ServerConfig extends Thread {
             String result = null;
             try {
                 result = handle(inputStream);
-                writer.write(result);
+              /*  writer.write(result);
                 writer.newLine();
-                writer.flush();
+                writer.flush();*/
             } catch (IOException | DataFormException | IllegalArgumentException e) {
-                writer.write("error");
+            /*    writer.write("error");
                 writer.newLine();
-                writer.flush();
+                writer.flush();*/
                 System.out.println("发生异常");
                 try {
                     System.out.println("再次接受!");
                     result = handle(inputStream);
-                    writer.write(result);
+                /*    writer.write(result);
                     writer.newLine();
-                    writer.flush();
+                    writer.flush();*/
                 } catch (DataFormException | SocketTimeoutException ex) {
                     System.out.println("再次接受, 发生异常,连接关闭");
                 }
