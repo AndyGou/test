@@ -2,6 +2,7 @@ package com.system.service;
 
 import com.system.entity.Account;
 import com.system.entity.AccountDTO;
+import com.system.entity.LoginDTO;
 import com.system.entity.ResponseMessage;
 
 import java.util.List;
@@ -47,5 +48,7 @@ public interface AccountService {
      * <p>分页查询账号信息<p>
      */
     ResponseMessage selectAccountList(Integer start, Integer size, AccountDTO accountDTO);
+
+    String login(LoginDTO loginDTO);
 
 }

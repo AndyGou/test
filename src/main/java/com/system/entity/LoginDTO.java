@@ -1,5 +1,7 @@
 package com.system.entity;
 
+import javax.validation.constraints.NotNull;
+
 /**
  * @author Luffy
  * @description 登录信息
@@ -7,8 +9,10 @@ package com.system.entity;
  */
 public class LoginDTO {
 
+    @NotNull(message = "username")
     private String username;
 
+    @NotNull(message = "password")
     private String password;
 
     public String getUsername() {

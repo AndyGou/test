@@ -37,13 +37,17 @@ public class AccountController {
     @PostMapping("/login")
     public ResponseMessage login(@RequestBody LoginDTO loginDTO) {
         LOGGER.info("Login info is {}",loginDTO);
-        return ResponseMessage.success().data("token","admin");
+        String login = accountService.login(loginDTO);
+        if (login.equals("")) {
+            return ResponseMessage.error().data("message","login fail");
+        }
+        return ResponseMessage.success().data("token",login);
     }
 
     @GetMapping("/info")
-    public ResponseMessage info() {
+    public ResponseMessage info(@RequestParam(name = "token") String token) {
 
-        return ResponseMessage.success().data("roles","[admin]").data("name","admin").
+        return ResponseMessage.success().data("roles","[" + token + "]").data("name",token).
                 data("avatar","https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif");
 
     }

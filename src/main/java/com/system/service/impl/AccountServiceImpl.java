@@ -93,4 +93,17 @@ public class AccountServiceImpl implements AccountService {
         }
         return ResponseMessage.success().data("total",accountIPageTotal).data("list",result);
     }
+
+    @Override
+    public String login(LoginDTO loginDTO) {
+        String username = loginDTO.getUsername();
+        QueryWrapper<Account> wrapper = new QueryWrapper<>();
+        wrapper.eq("username",username);
+        Account account = accountDao.selectOne(wrapper);
+        if (Objects.isNull(account)) {
+            return "";
+        }
+
+        return account.getRoleCode().equals(1) ? "admin" : "editor";
+    }
 }
